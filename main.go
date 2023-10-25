@@ -24,7 +24,7 @@ func main() {
 
 	// Slice
 	// var bookings []string
-	bookings := []string{}
+	bookings := make([]map[string]string, 0)
 	// var bookings = []string{"Josh", "Mike"}
 
 	for {
