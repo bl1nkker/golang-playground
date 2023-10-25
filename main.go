@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"golang-playground/helper"
+	"golang-playground/models"
 )
 
 // Entry point for the application
@@ -24,7 +25,7 @@ func main() {
 
 	// Slice
 	// var bookings []string
-	bookings := make([]map[string]string, 0)
+	bookings := make([]models.UserData, 0)
 	// var bookings = []string{"Josh", "Mike"}
 
 	for {

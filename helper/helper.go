@@ -2,7 +2,7 @@ package helper
 
 import (
 	"fmt"
-	"strconv"
+	"golang-playground/models"
 	"strings"
 )
 
@@ -37,26 +37,26 @@ func TicketValidator(userTickets uint, remainingTickets uint) bool {
 	}
 }
 
-func ProcessBooking(bookings []map[string]string, firstName string, lastName string, email string, userTickets uint, remainingTickets uint, conferenceName string) []map[string]string{
-	// bookings[0] = firstName + " " + lastName
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["userTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+func ProcessBooking(bookings []models.UserData, firstName string, lastName string, email string, userTickets uint, remainingTickets uint, conferenceName string) []models.UserData{
+	userData := models.UserData{
+		FirstName: firstName,
+		LastName: lastName,
+		Email: email,
+		NumberOfTickets: userTickets,
+	}
 	bookings = append(bookings, userData)
 	fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v with more details!\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 	return bookings
 }
 
-func ReprBookings(bookings []map[string]string){
+func ReprBookings(bookings []models.UserData){
 	firstNames := []string{}
 
 	for _, booking := range bookings {
 		// It is like .split() from Python
 		// var names = strings.Fields(booking)
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.FirstName)
 	}
 	fmt.Printf("Bookings: %v\n", firstNames)
 }
