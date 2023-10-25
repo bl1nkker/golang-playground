@@ -1,11 +1,11 @@
-package main
+package helper
 
 import (
 	"fmt"
 	"strings"
 )
 
-func userDataRetriever() (string, string, string, uint, string) {
+func UserDataRetriever() (string, string, string, uint, string) {
 	var firstName string
 	var lastName string
 	var email string
@@ -28,7 +28,7 @@ func userDataRetriever() (string, string, string, uint, string) {
 	return firstName, lastName, email, userTickets, errorMessage
 }
 
-func ticketValidator(userTickets uint, remainingTickets uint) bool {
+func TicketValidator(userTickets uint, remainingTickets uint) bool {
 	if userTickets > remainingTickets || remainingTickets == 0{
 		return false
 	} else {
@@ -36,7 +36,7 @@ func ticketValidator(userTickets uint, remainingTickets uint) bool {
 	}
 }
 
-func processBooking(bookings []string, firstName string, lastName string, email string, userTickets uint, remainingTickets uint, conferenceName string) []string{
+func ProcessBooking(bookings []string, firstName string, lastName string, email string, userTickets uint, remainingTickets uint, conferenceName string) []string{
 	// bookings[0] = firstName + " " + lastName
 	bookings = append(bookings, firstName + " " + lastName)
 	fmt.Printf("Thank You %v %v for booking %v tickets. You will receive a confirmation email at %v with more details!\n", firstName, lastName, userTickets, email)
@@ -44,7 +44,7 @@ func processBooking(bookings []string, firstName string, lastName string, email 
 	return bookings
 }
 
-func reprBookings(bookings []string){
+func ReprBookings(bookings []string){
 	firstNames := []string{}
 
 	for _, booking := range bookings {

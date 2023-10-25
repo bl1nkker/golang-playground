@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"golang-playground/helper"
 )
 
 // Entry point for the application
@@ -27,12 +28,12 @@ func main() {
 	// var bookings = []string{"Josh", "Mike"}
 
 	for {
-		firstName, lastName, email, userTickets, errorMessage := userDataRetriever()
+		firstName, lastName, email, userTickets, errorMessage := helper.UserDataRetriever()
 		if len(errorMessage) != 0{
 			fmt.Printf("Validation Error: %v. Try again!\n", errorMessage)
 			continue
 		}
-		var isValidTicketAmount bool = ticketValidator(userTickets, remainingTickets)
+		var isValidTicketAmount bool = helper.TicketValidator(userTickets, remainingTickets)
 		if !isValidTicketAmount{
 			fmt.Printf("Remaining tickets (%v) is less than %v! So, go fuck yourself and try again :)\n", remainingTickets, userTickets)
 			break
@@ -40,8 +41,8 @@ func main() {
 			remainingTickets = remainingTickets - userTickets
 		}
 
-		bookings = processBooking(bookings, firstName, lastName, email, userTickets, remainingTickets, conferenceName)
-		reprBookings(bookings)
+		bookings = helper.ProcessBooking(bookings, firstName, lastName, email, userTickets, remainingTickets, conferenceName)
+		helper.ReprBookings(bookings)
 	}
 
 
