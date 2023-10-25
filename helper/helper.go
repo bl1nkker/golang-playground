@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"golang-playground/models"
 	"strings"
+	"sync"
+	"time"
 )
 
 func UserDataRetriever() (string, string, string, uint, string) {
@@ -59,4 +61,13 @@ func ReprBookings(bookings []models.UserData){
 		firstNames = append(firstNames, booking.FirstName)
 	}
 	fmt.Printf("Bookings: %v\n", firstNames)
+}
+
+func SendEmail(wg *sync.WaitGroup, firstName string, lastName string, email string, userTickets uint){
+	time.Sleep(10 * time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v", userTickets, firstName + " " + lastName)
+	fmt.Println("***********************")
+	fmt.Printf("Sending ticket: \n%v \nto email address %v\n", ticket, email)
+	fmt.Println("***********************")
+	wg.Done()
 }

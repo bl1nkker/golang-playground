@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"golang-playground/helper"
 	"golang-playground/models"
+	"sync"
 )
+
+var wg = sync.WaitGroup{}
 
 // Entry point for the application
 func main() {
@@ -28,23 +31,23 @@ func main() {
 	bookings := make([]models.UserData, 0)
 	// var bookings = []string{"Josh", "Mike"}
 
-	for {
-		firstName, lastName, email, userTickets, errorMessage := helper.UserDataRetriever()
-		if len(errorMessage) != 0{
-			fmt.Printf("Validation Error: %v. Try again!\n", errorMessage)
-			continue
-		}
-		var isValidTicketAmount bool = helper.TicketValidator(userTickets, remainingTickets)
-		if !isValidTicketAmount{
-			fmt.Printf("Remaining tickets (%v) is less than %v! So, go fuck yourself and try again :)\n", remainingTickets, userTickets)
-			break
-		} else{
-			remainingTickets = remainingTickets - userTickets
-		}
-
-		bookings = helper.ProcessBooking(bookings, firstName, lastName, email, userTickets, remainingTickets, conferenceName)
-		helper.ReprBookings(bookings)
+	firstName, lastName, email, userTickets, errorMessage := helper.UserDataRetriever()
+	if len(errorMessage) != 0{
+		fmt.Printf("Validation Error: %v. Try again!\n", errorMessage)
+		// continue
+	}
+	var isValidTicketAmount bool = helper.TicketValidator(userTickets, remainingTickets)
+	if !isValidTicketAmount{
+		fmt.Printf("Remaining tickets (%v) is less than %v! So, go fuck yourself and try again :)\n", remainingTickets, userTickets)
+		// break
+	} else{
+		remainingTickets = remainingTickets - userTickets
 	}
 
+	bookings = helper.ProcessBooking(bookings, firstName, lastName, email, userTickets, remainingTickets, conferenceName)
+	wg.Add(1)
+	go helper.SendEmail(&wg, firstName, lastName, email, userTickets)
+	helper.ReprBookings(bookings)
 
+	wg.Wait()
 }

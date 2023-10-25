@@ -6,3 +6,7 @@ type UserData struct{
 	Email string
 	NumberOfTickets uint
 }
+
+func FullName(user UserData) string{
+	return user.FirstName + " " + user.LastName
+}
